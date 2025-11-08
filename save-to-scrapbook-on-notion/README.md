@@ -69,7 +69,7 @@ WebページをNotionのスクラップブックに保存するChrome拡張機�
       },
       "ソース":{
          "select":{
-            "name":"{web or nikkei}"
+            "name":"{ソース}"
          }
       },
       "タイトル":{
