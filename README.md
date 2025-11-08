@@ -25,9 +25,7 @@ Save English vocabulary words to Notion while reading or studying English web pa
 
 **主な機能 / Key Features:**
 - 🔤 英単語の保存 / Save English words
-- 📝 文脈の記録 / Preserve context
-- 🔗 URL自動記録 / Auto-record source URLs
-- 📅 日付自動記録 / Auto-record dates
+- 📝 意味の記録 / Preserve meanings
 - 🖱️ 右クリックメニュー対応 / Right-click menu support
 - 🎨 ライト/ダークモード / Light/dark mode
 - 🔒 セキュアな認証情報管理 / Secure credential storage
@@ -39,13 +37,6 @@ Save English vocabulary words to Notion while reading or studying English web pa
 - セキュリティ / Security: ✅ CodeQL verified (0 vulnerabilities)
 
 📁 [詳細はこちら / Learn more](./save-english-vocab-to-notion/)
-
-**ドキュメント / Documentation:**
-- [README.md](./save-english-vocab-to-notion/README.md) - 基本的な使い方 / Basic usage
-- [INSTALL.md](./save-english-vocab-to-notion/INSTALL.md) - インストール手順 / Installation guide
-- [USAGE_GUIDE.md](./save-english-vocab-to-notion/USAGE_GUIDE.md) - 詳細な使い方 / Detailed usage
-- [FEATURES.md](./save-english-vocab-to-notion/FEATURES.md) - 機能詳細 / Feature details
-- [ARCHITECTURE.md](./save-english-vocab-to-notion/ARCHITECTURE.md) - 技術仕様 / Technical architecture
 
 ---
 
