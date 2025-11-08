@@ -74,16 +74,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
       
-      // コンテンツスクリプトから選択テキストを取得を試行
+      // まずコンテンツスクリプトから選択テキストを取得を試行
       try {
         const response = await chrome.tabs.sendMessage(tab.id, { action: 'getSelectedText' });
         if (response && response.selectedText) {
           const selectedText = response.selectedText.trim();
-          // 選択されたテキストを単語フィールドに入力
-          wordInput.value = selectedText;
+          if (selectedText) {
+            // 選択されたテキストを単語フィールドに入力
+            wordInput.value = selectedText;
+            return;
+          }
         }
       } catch (messageError) {
-        console.log('コンテンツスクリプトからの取得に失敗:', messageError);
+        console.log('コンテンツスクリプトからの取得に失敗、executeScriptで再試行:', messageError);
+      }
+      
+      // フォールバック: chrome.scripting.executeScript を使用
+      try {
+        const results = await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          function: () => {
+            const selection = window.getSelection();
+            return selection ? selection.toString().trim() : '';
+          }
+        });
+        
+        if (results && results[0] && results[0].result) {
+          const selectedText = results[0].result.trim();
+          if (selectedText) {
+            wordInput.value = selectedText;
+          }
+        }
+      } catch (scriptError) {
+        console.log('スクリプト実行からの取得に失敗:', scriptError);
       }
       
     } catch (error) {
