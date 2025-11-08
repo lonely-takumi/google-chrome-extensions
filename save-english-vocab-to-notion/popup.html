@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Save Vocabulary to Notion</h1>
+    </div>
+    
+    <div class="tabs">
+      <button class="tab-button active" data-tab="main-section">単語を保存</button>
+      <button class="tab-button" data-tab="settings-section">設定</button>
+    </div>
+    
+    <div id="settings-section" class="section tab-content">
+      <h2>設定</h2>
+      <div class="form-group">
+        <label for="api-key">Notion API Key:</label>
+        <input type="password" id="api-key" placeholder="API Key">
+      </div>
+      <div class="form-group">
+        <label for="database-id">Database ID:</label>
+        <input type="text" id="database-id" placeholder="データベースID">
+      </div>
+      <button id="save-settings" class="btn btn-secondary">設定を保存</button>
+      
+      <div class="info-section">
+        <h3>使い方</h3>
+        <p>1. Notionでデータベースを作成してください</p>
+        <p>2. 以下のプロパティを追加してください：</p>
+        <ul>
+          <li><strong>単語</strong> (タイトル)</li>
+          <li><strong>文脈</strong> (リッチテキスト)</li>
+          <li><strong>URL</strong> (URL)</li>
+          <li><strong>日付</strong> (日付)</li>
+        </ul>
+        <p>3. Notion APIキーとデータベースIDを設定してください</p>
+      </div>
+    </div>
+
+    <div id="main-section" class="section tab-content active">
+      <h2>英単語を保存</h2>
+      
+      <div class="form-group">
+        <label for="word">単語:</label>
+        <input type="text" id="word" placeholder="保存する英単語を入力">
+      </div>
+      
+      <div class="form-group">
+        <label for="context">文脈 (オプション):</label>
+        <textarea id="context" placeholder="単語が使われている文章や文脈" rows="4"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="source-url">ソースURL:</label>
+        <div id="source-url" class="page-data"></div>
+      </div>
+      
+      <button id="save-word" class="btn btn-primary">Notionに保存</button>
+      
+      <div class="tip-section">
+        <p><strong>💡 ヒント:</strong> テキストを選択してから拡張機能を開くと、自動的に入力されます</p>
+      </div>
+    </div>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
