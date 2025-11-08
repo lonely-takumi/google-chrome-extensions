@@ -28,9 +28,10 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
     // 選択されたテキストを保存
     const selectedText = info.selectionText.trim();
+    const wordCount = selectedText.split(/\s+/).length;
     const vocabData = {
-      word: selectedText.split(/\s+/).length <= 3 ? selectedText : '',
-      context: selectedText.split(/\s+/).length > 3 ? selectedText : '',
+      word: wordCount <= 3 ? selectedText : selectedText.substring(0, 100),
+      context: wordCount > 3 ? selectedText : '',
       url: tab.url
     };
 
@@ -62,19 +63,25 @@ async function saveVocabToNotion(vocabData, apiKey, databaseId) {
   // 現在の日付を取得
   const today = new Date().toISOString().split('T')[0];
   
+  // URLの検証 - chrome://などの特殊URLはnullに変換
+  let validUrl = null;
+  if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
+    validUrl = url;
+  }
+  
   const requestBody = {
     parent: {
       database_id: databaseId
     },
     properties: {
       "単語": {
-        title: [{ text: { content: word || context.substring(0, 50) } }]
+        title: [{ text: { content: word || (context ? context.substring(0, 100) : 'Untitled') } }]
       },
       "文脈": {
         rich_text: context ? [{ text: { content: context } }] : []
       },
       "URL": {
-        url: url || null
+        url: validUrl
       },
       "日付": {
         date: { start: today }
