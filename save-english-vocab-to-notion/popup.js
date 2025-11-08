@@ -6,14 +6,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const databaseIdInput = document.getElementById('database-id');
   const saveSettingsBtn = document.getElementById('save-settings');
   const wordInput = document.getElementById('word');
-  const contextInput = document.getElementById('context');
-  const sourceUrlDiv = document.getElementById('source-url');
+  const meaningInput = document.getElementById('meaning');
   const saveWordBtn = document.getElementById('save-word');
   const statusDiv = document.getElementById('status');
   const tabButtons = document.querySelectorAll('.tab-button');
   const tabContents = document.querySelectorAll('.tab-content');
-
-  let currentUrl = '';
 
   // タブ切り替え機能
   function switchTab(targetTabId) {
@@ -67,14 +64,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // 現在のページ情報と選択されたテキストを取得
-  async function loadPageInfo() {
+  // 選択されたテキストを取得
+  async function loadSelectedText() {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      
-      // URLを保存
-      currentUrl = tab.url || '';
-      sourceUrlDiv.textContent = currentUrl;
       
       // 特別なページの場合は選択テキストを取得しない
       if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('moz-extension://')) {
@@ -85,24 +78,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       try {
         const response = await chrome.tabs.sendMessage(tab.id, { action: 'getSelectedText' });
         if (response && response.selectedText) {
-          // 選択されたテキストを解析して単語と文脈を分離
           const selectedText = response.selectedText.trim();
-          
-          // 選択されたテキストが単語のみの場合
-          if (selectedText.split(/\s+/).length <= 3) {
-            wordInput.value = selectedText;
-          } else {
-            // 長いテキストの場合は文脈として扱う
-            contextInput.value = selectedText;
-          }
+          // 選択されたテキストを単語フィールドに入力
+          wordInput.value = selectedText;
         }
       } catch (messageError) {
         console.log('コンテンツスクリプトからの取得に失敗:', messageError);
       }
       
     } catch (error) {
-      console.error('ページ情報取得エラー:', error);
-      sourceUrlDiv.textContent = 'URL取得不可';
+      console.error('テキスト取得エラー:', error);
     }
   }
 
@@ -157,8 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 入力値を取得
     const word = wordInput.value.trim();
-    const context = contextInput.value.trim();
-    const url = currentUrl;
+    const meaning = meaningInput.value.trim();
 
     if (!word) {
       showStatus('単語を入力してください', 'error');
@@ -174,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const response = await chrome.runtime.sendMessage({
         action: 'saveVocabToNotion',
-        vocabData: { word, context, url },
+        vocabData: { word, meaning },
         apiKey,
         databaseId
       });
@@ -183,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         showStatus('Notionに保存しました！', 'success');
         // 入力フィールドをクリア
         wordInput.value = '';
-        contextInput.value = '';
+        meaningInput.value = '';
       } else {
         showStatus(`保存に失敗しました: ${response.error}`, 'error');
       }
@@ -204,5 +188,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 初期化
   await loadSettings();
-  await loadPageInfo();
+  await loadSelectedText();
 });

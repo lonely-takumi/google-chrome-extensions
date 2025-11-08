@@ -22,9 +22,7 @@
 | プロパティ名 | タイプ | 必須 |
 |------------|--------|------|
 | 単語 | タイトル | ✓ |
-| 文脈 | リッチテキスト | - |
-| URL | URL | - |
-| 日付 | 日付 | - |
+| 意味 | リッチテキスト | - |
 
 **重要**: プロパティ名は正確に一致する必要があります。
 
@@ -75,18 +73,19 @@ Database ID: abc123def456
 
 #### 方法1: ポップアップから保存
 
-1. 保存したい単語やフレーズをテキスト選択する（オプション）
+1. 保存したい単語をテキスト選択する（オプション）
 2. 拡張機能のアイコンをクリック
 3. 単語が自動入力される（選択していた場合）
-4. 必要に応じて文脈を入力
+4. 意味を入力
 5. 「Notionに保存」をクリック
 
 #### 方法2: 右クリックメニューから保存（推奨）
 
-1. 保存したい単語やフレーズをテキスト選択
+1. 保存したい単語を選択
 2. 右クリック
 3. 「Save "{選択したテキスト}" to Notion」を選択
 4. 通知で保存完了を確認
+5. Notionで意味を追加
 
 #### テストページの使用
 
@@ -116,9 +115,7 @@ Database ID: abc123def456
 | Property Name | Type | Required |
 |--------------|------|----------|
 | 単語 (Word) | Title | ✓ |
-| 文脈 (Context) | Rich Text | - |
-| URL | URL | - |
-| 日付 (Date) | Date | - |
+| 意味 (Meaning) | Rich Text | - |
 
 **Important**: Property names must match exactly (use Japanese names).
 
@@ -169,18 +166,19 @@ Database ID: abc123def456
 
 #### Method 1: Save via Popup
 
-1. Select a word or phrase you want to save (optional)
+1. Select a word you want to save (optional)
 2. Click the extension icon
 3. The word will be auto-filled (if you selected text)
-4. Add context if needed
+4. Add the meaning
 5. Click "Notionに保存" (Save to Notion)
 
 #### Method 2: Save via Right-Click Menu (Recommended)
 
-1. Select a word or phrase you want to save
+1. Select a word you want to save
 2. Right-click
 3. Select "Save '{selected text}' to Notion"
 4. Check the notification for confirmation
+5. Add the meaning in Notion
 
 #### Using the Test Page
 
@@ -193,7 +191,7 @@ Open `test-page.html` in your browser to test the extension with various English
 **Solutions**:
 1. Verify API Key and Database ID are correct
 2. Check that the integration has access to the database
-3. Ensure property names in Notion match exactly: 単語, 文脈, URL, 日付
+3. Ensure property names in Notion match exactly: 単語, 意味
 4. Check browser console for error messages
 
 **Problem**: Right-click menu doesn't appear

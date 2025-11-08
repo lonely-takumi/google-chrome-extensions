@@ -28,11 +28,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
     // 選択されたテキストを保存
     const selectedText = info.selectionText.trim();
-    const wordCount = selectedText.split(/\s+/).length;
     const vocabData = {
-      word: wordCount <= 3 ? selectedText : selectedText.substring(0, 100),
-      context: wordCount > 3 ? selectedText : '',
-      url: tab.url
+      word: selectedText,
+      meaning: ''
     };
 
     try {
@@ -58,16 +56,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 // Notion APIに単語を保存する関数
 async function saveVocabToNotion(vocabData, apiKey, databaseId) {
-  const { word, context, url } = vocabData;
-  
-  // 現在の日付を取得
-  const today = new Date().toISOString().split('T')[0];
-  
-  // URLの検証 - chrome://などの特殊URLはnullに変換
-  let validUrl = null;
-  if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
-    validUrl = url;
-  }
+  const { word, meaning } = vocabData;
   
   const requestBody = {
     parent: {
@@ -75,16 +64,10 @@ async function saveVocabToNotion(vocabData, apiKey, databaseId) {
     },
     properties: {
       "単語": {
-        title: [{ text: { content: word || (context ? context.substring(0, 100) : 'Untitled') } }]
+        title: [{ text: { content: word || 'Untitled' } }]
       },
-      "文脈": {
-        rich_text: context ? [{ text: { content: context } }] : []
-      },
-      "URL": {
-        url: validUrl
-      },
-      "日付": {
-        date: { start: today }
+      "意味": {
+        rich_text: meaning ? [{ text: { content: meaning } }] : []
       }
     }
   };
