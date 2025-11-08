@@ -78,7 +78,7 @@ async function saveVocabToNotion(vocabData, apiKey, databaseId) {
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'Notion-Version': '2022-06-28'
+        'Notion-Version': '2025-09-03'
       },
       body: JSON.stringify(requestBody)
     });
